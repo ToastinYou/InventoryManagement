@@ -1,0 +1,35 @@
+﻿@model ProductsViewModel
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container">
+    <h2>Products</h2>
+    <form asp-action="UpdateQuantities">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>SKU</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Products.Count; i++)
+                {
+                    <tr>
+                        <td>@Model.Products[i].Name</td>
+                        <td>@Model.Products[i].Sku</td>
+                        <td>
+                            <input type="hidden" name="Products[@i].Sku" value="@Model.Products[i].Sku" />
+                            <input type="number" name="Products[@i].Quantity" value="@Model.Products[i].Quantity" class="form-control" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a class="btn btn-success" asp-action="Create">New Product</a>
+        <button type="submit" class="btn btn-primary">Update Quantities</button>
+    </form>
+</div>
