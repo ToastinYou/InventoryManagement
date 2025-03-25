@@ -5,9 +5,16 @@
 }
 
 <div class="container">
-    <h2>Products</h2>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h2>Products</h2>
+        </div>
+        <div class="col-md-6 text-end">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search products..." onkeyup="filterProducts()" />
+        </div>
+    </div>
     <form asp-action="UpdateQuantities">
-        <table class="table table-striped">
+        <table class="table table-striped" id="productsTable">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -33,3 +40,31 @@
         <button type="submit" class="btn btn-primary">Update Quantities</button>
     </form>
 </div>
+
+<script>
+    function filterProducts() {
+        let input = document.getElementById("searchInput");
+        let filter = input.value.toLowerCase();
+        let table = document.getElementById("productsTable");
+        let rows = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < rows.length; i++) {
+            // Hide row.
+            rows[i].style.display = "none";
+            let data = rows[i].getElementsByTagName("td");
+
+            for (let j = 0; j < data.length; j++) {
+                if (!data[j]) {
+                    continue;
+                }
+
+                let match = (data[j].textContent || data[j].innerText).toLowerCase().indexOf(filter) > -1;
+                if (match) {
+                    // Data contains filter, show row.
+                    rows[i].style.display = "";
+                    break;
+                }
+            }
+        }
+    }
+</script>
